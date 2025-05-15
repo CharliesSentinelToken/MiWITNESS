@@ -5,8 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MiWITNESS</title>
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+    }
+    body {
       height: 100vh;
       background: #fff;
       display: flex;
@@ -15,18 +19,19 @@
       align-items: center;
       font-family: 'Segoe UI', sans-serif;
     }
-    h1 {
-      font-size: 2em;
+    .logo {
+      font-size: 2.5em;
       font-weight: 600;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
+      text-align: center;
     }
     .highlight {
       color: #f4a300;
     }
     .loader {
-      margin-top: 16px;
-      width: 30px;
-      height: 30px;
+      margin-top: 20px;
+      width: 36px;
+      height: 36px;
       border: 3px solid #f4a300;
       border-top: 3px solid transparent;
       border-radius: 50%;
@@ -38,7 +43,7 @@
   </style>
 </head>
 <body>
-  <h1>Mi<span class="highlight">WITNESS</span></h1>
+  <div class="logo">M<span class="highlight">i</span>WITNESS</div>
   <div class="loader"></div>
 </body>
 </html>
