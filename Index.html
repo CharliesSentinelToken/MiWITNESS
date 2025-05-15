@@ -1,1 +1,83 @@
 
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MiWITNESS</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+    }
+    .highlight {
+      color: orange;
+    }
+    .login-box {
+      display: flex;
+      align-items: center;
+      border: 2px solid #000;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 20px;
+      width: 90%;
+      max-width: 400px;
+    }
+    input[type="password"] {
+      border: none;
+      padding: 12px;
+      font-size: 1rem;
+      flex: 1;
+      outline: none;
+    }
+    button {
+      background-color: orange;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+      display: none;
+    }
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h1><span class="highlight">Mi</span>WITNESS</h1>
+  <div class="login-box">
+    <input id="password" type="password" placeholder="Sign in" />
+    <button onclick="checkPassword()">Scan</button>
+  </div>
+  <div id="error" class="error">Access Denied</div>
+  <div class="footer">MiWITNESS &copy; 2025</div>  <script>
+    function checkPassword() {
+      const pwd = document.getElementById('password').value;
+      const error = document.getElementById('error');
+      if (pwd !== 'falsepath123') {
+        error.style.display = 'block';
+        console.warn('Unauthorised access attempt detected.');
+      } else {
+        window.location.href = '/scanner-false-trail';
+      }
+    }
+  </script></body>
+</html>
