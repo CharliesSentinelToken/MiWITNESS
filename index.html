@@ -6,46 +6,55 @@
   <style>
     body {
       margin: 0;
-      background: #fff;
-      font-family: Calibri, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background: white;
       height: 100vh;
-      flex-direction: column;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Calibri, sans-serif;
     }
-    .logo {
-      font-size: 1.5em;
+    .logo-container {
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .logo-text {
+      position: relative;
+      font-size: 2em;
       font-weight: bold;
-      color: #333;
-      margin-bottom: 30px;
+      color: black;
     }
-    .circle {
-      width: 80px;
-      height: 80px;
-      border: 5px solid orange;
-      border-top: 5px solid transparent;
+    .logo-text .dot {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: orange;
       border-radius: 50%;
-      animation: spin 1.2s linear infinite;
-      margin-bottom: 30px;
+      top: -10px;
+      left: 12px;
+    }
+    .spinner {
+      width: 30px;
+      height: 30px;
+      border: 3px solid orange;
+      border-top: 3px solid transparent;
+      border-radius: 50%;
+      margin: 25px auto 0;
+      animation: spin 1.3s linear infinite;
     }
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-    .enter-button {
-      text-decoration: none;
-      background: orange;
-      color: white;
-      padding: 12px 26px;
-      border-radius: 6px;
-      font-size: 1em;
-    }
   </style>
 </head>
 <body>
-  <div class="logo">miwitness</div>
-  <div class="circle"></div>
-  <a href="home.html" class="enter-button">ENTER</a>
+  <a href="home.html" class="logo-container">
+    <div class="logo-text">
+      <span class="dot"></span>
+      MIWITNESS
+    </div>
+    <div class="spinner"></div>
+  </a>
 </body>
 </html>
