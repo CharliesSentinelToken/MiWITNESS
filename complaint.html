@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>miwitness Complaint Submission</title>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <style>
+    body { font-family: Calibri, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
+    input, select, textarea, button { width: 100%; margin: 10px 0; padding: 10px; font-size: 1em; }
+    label { font-weight: bold; }
+    #confirmation { color: green; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Submit Your Complaint</h1>
+  <form id="complaintForm">
+    <label>Your Email</label>
+    <input type="email" id="from_email" required>
+
+    <label>Organisation's Email</label>
+    <input type="email" id="to_email" required>
+
+    <label>Complaint Type</label>
+    <select id="type">
+      <option value="General">-- Select Type --</option>
+      <option value="Police">Police</option>
+      <option value="Council">Local Council</option>
+      <option value="Employer">Employer</option>
+      <option value="NHS">NHS</option>
+      <option value="School">School</option>
+      <option value="Mobile">Mobile Provider</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label>What happened?</label>
+    <textarea id="details" placeholder="Describe your complaint here..." required></textarea>
+
+    <button type="submit">Send Complaint</button>
+  </form>
+
+  <div id="confirmation" style="display:none;"></div>
+
+  <script>
+    emailjs.init("hIS3eySFPXc1nNuFa");
+
+    const complaintTemplates = {
+      Police: "I am writing to complain about police conduct. Details:\n\n",
+      Council: "I wish to raise a formal complaint regarding council services. Incident details:\n\n",
+      Employer: "I am submitting a grievance to my employer. The issue relates to:\n\n",
+      NHS: "This is a complaint regarding NHS care. The problem occurred on:\n\n",
+      School: "I wish to complain about a matter at the school concerning:\n\n",
+      Mobile: "I am lodging a formal complaint about my mobile phone provider. Details:\n\n",
+      Other: "This is a formal complaint. The issue I am raising is:\n\n",
+      General: ""
+    };
+
+    document.getElementById("type").addEventListener("change", function () {
+      const type = this.value;
+      const template = complaintTemplates[type] || "";
+      document.getElementById("details").value = template;
+    });
+
+    document.getElementById("complaintForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const from_email = document.getElementById("from_email").value;
+      const to_email = document.getElementById("to_email").value;
+      const message = document.getElementById("details").value;
+      const title = document.getElementById("type").value || "Complaint";
+      const ref_id = "MW-" + Date.now();
+
+      emailjs.send("service_kz8yf5h", "template_lnyzqy8", {
+        from_email: from_email,
+        to_email: to_email,
+        title: title,
+        message: message,
+        ref_id: ref_id
+      }).then(function () {
+        document.getElementById("confirmation").style.display = "block";
+        document.getElementById("confirmation").innerText = 
+          "Complaint sent successfully. Reference: " + ref_id;
+        document.getElementById("complaintForm").reset();
+      }, function (error) {
+        alert("Failed to send complaint. Please try again.");
+        console.error(error);
+      });
+    });
+  </script>
+</body>
+</html>
