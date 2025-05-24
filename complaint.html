@@ -3,7 +3,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>miwitness Complaint Assistant</title>
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <style>
     body {
       margin: 0;
@@ -14,13 +13,11 @@
       flex-direction: column;
       min-height: 100vh;
     }
-    header, nav, footer {
-      padding: 12px 20px;
-    }
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 12px 20px;
       flex-wrap: wrap;
     }
     .brand a {
@@ -29,19 +26,27 @@
       font-size: 1.6em;
       font-weight: bold;
     }
-    .brand a span { color: orange; }
+    .brand a span {
+      color: orange;
+    }
     .quote {
       font-size: 0.9em;
       font-style: italic;
+      color: #222;
       max-width: 260px;
       text-align: right;
     }
-    .quote span { color: orange; font-size: 1.4em; font-weight: bold; }
+    .quote span {
+      color: orange;
+      font-size: 1.4em;
+      font-weight: bold;
+    }
     nav {
       background: #2d2626;
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 10px 0;
       flex-wrap: wrap;
     }
     nav a {
@@ -52,7 +57,10 @@
       padding: 6px 12px;
       border-radius: 4px;
     }
-    nav a:hover { background: orange; color: #2d2626; }
+    nav a:hover {
+      background: orange;
+      color: #2d2626;
+    }
     .dropdown {
       position: relative;
       display: inline-block;
@@ -69,48 +77,55 @@
       padding: 10px 14px;
       display: block;
     }
-    .dropdown:hover .dropdown-content { display: block; }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
     main {
       flex: 1;
       padding: 20px;
       max-width: 900px;
       margin: auto;
     }
-    iframe {
-      width: 100%;
-      height: 500px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-    .output-box {
-      background: #f9f9f9;
+    #chatbox {
       border: 1px solid #ccc;
       padding: 15px;
+      height: 400px;
+      overflow-y: auto;
+      margin-bottom: 15px;
+      background: #f7f7f7;
       border-radius: 6px;
-      margin-bottom: 20px;
-      white-space: pre-wrap;
     }
-    label, input, textarea, button {
-      display: block;
-      width: 100%;
-      margin-bottom: 10px;
+    #chatbox .msg {
+      margin: 10px 0;
+    }
+    #chatbox .user {
+      text-align: right;
+      font-weight: bold;
+      color: #222;
+    }
+    #chatbox .ai {
+      text-align: left;
+      color: orange;
+    }
+    input, textarea, button {
       font-size: 1em;
+      padding: 10px;
+      margin-top: 8px;
+      width: 100%;
     }
     button {
       background: orange;
-      color: #fff;
+      color: white;
       border: none;
-      padding: 10px;
-      border-radius: 5px;
+      border-radius: 4px;
       cursor: pointer;
     }
     footer {
       background: #2d2626;
       color: white;
+      padding: 10px 20px;
       font-size: 0.85em;
       text-align: center;
-      padding: 10px 20px;
     }
   </style>
 </head>
@@ -136,46 +151,62 @@
     </div>
   </nav>
   <main>
-    <h1>AI Legal Complaint Assistant</h1>
-    <iframe src="https://huggingface.co/spaces/OpenAssistant/oasst-chat" title="AI Chat"></iframe><div class="output-box" id="outputBox" contenteditable="true">
-  Paste the AI-generated complaint letter here for sending.
-</div>
-
-<form id="emailForm">
-  <label>Your Email (proof copy)</label>
-  <input type="email" name="from_email" required />
-  <label>Recipient Email (organisation)</label>
-  <input type="email" name="to_email" required />
-  <label>Complaint Message</label>
-  <textarea name="message" rows="8" required></textarea>
-  <input type="hidden" name="title" value="miwitness Complaint" />
-  <input type="hidden" name="ref_id" value="MW-${Date.now()}" />
-  <button type="submit">Send My Complaint</button>
-</form>
-
-<div id="result"></div>
-
+    <h1>Legal AI Complaint Assistant</h1>
+    <div id="chatbox"></div>
+    <input id="userInput" placeholder="Ask your question..." />
+    <button onclick="sendMessage()">Send</button>
+    <form id="sendForm">
+      <h3>Email This Complaint</h3>
+      <input type="email" id="fromEmail" placeholder="Your Email (proof copy)" required />
+      <input type="email" id="toEmail" placeholder="Recipient Email" required />
+      <textarea id="finalMessage" placeholder="Paste or edit your complaint here..." rows="8" required></textarea>
+      <button type="submit">Send Complaint</button>
+      <div id="emailResult"></div>
+    </form>
   </main>
   <footer>
     miwitness.org &copy;2025
-  </footer>  <script>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
     emailjs.init("hIS3eySFPXc1nNuFa");
-    document.getElementById("emailForm").addEventListener("submit", function(e) {
+    const chatbox = document.getElementById("chatbox");
+    const input = document.getElementById("userInput");
+    function appendMsg(msg, who) {
+      const div = document.createElement("div");
+      div.className = `msg ${who}`;
+      div.textContent = msg;
+      chatbox.appendChild(div);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+    function sendMessage() {
+      const val = input.value.trim();
+      if (!val) return;
+      appendMsg(val, "user");
+      input.value = "";
+      // Fake AI reply for now
+      setTimeout(() => {
+        const reply = `This is your generated complaint based on: "${val}"\n\nDear Sir/Madam,\n\nI am writing to raise a formal complaint regarding ${val}.\n\nI request you investigate and respond in accordance with your legal obligations, including the Equality Act 2010, GDPR, and Human Rights Act 1998.\n\nYours faithfully,\n\n— Generated by miwitness.org`;
+        appendMsg(reply, "ai");
+        document.getElementById("finalMessage").value = reply;
+      }, 1000);
+    }
+    document.getElementById("sendForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      const form = e.target;
-      form.message.value = document.getElementById("outputBox").innerText;
-      emailjs.send("service_kz8yf5h", "template_lnyzqy8", {
-        from_email: form.from_email.value,
-        to_email: form.to_email.value,
-        title: form.title.value,
-        message: form.message.value,
-        ref_id: form.ref_id.value
-      }).then(() => {
-        document.getElementById("result").innerText = "Complaint sent and copy emailed.";
-        form.reset();
+      const data = {
+        from_email: document.getElementById("fromEmail").value,
+        to_email: document.getElementById("toEmail").value,
+        title: "miwitness Complaint",
+        message: document.getElementById("finalMessage").value,
+        ref_id: "MW-" + Date.now()
+      };
+      emailjs.send("service_kz8yf5h", "template_lnyzqy8", data).then(() => {
+        document.getElementById("emailResult").innerText = "Complaint sent and copy emailed.";
+        e.target.reset();
       }).catch(() => {
-        document.getElementById("result").innerText = "Failed to send email.";
+        document.getElementById("emailResult").innerText = "Failed to send.";
       });
     });
-  </script></body>
+  </script>
+</body>
 </html>
