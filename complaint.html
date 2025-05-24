@@ -2,164 +2,86 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>miwitness | Home</title>
+  <title>miwitness Complaint Assistant</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Calibri, sans-serif;
-      background: white;
-      color: #222;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 20px;
-      flex-wrap: wrap;
-    }
-    .brand a {
-      text-decoration: none;
-      color: black;
-      font-size: 1.6em;
-      font-weight: bold;
-    }
-    .brand a span {
-      color: orange;
-    }
-    .quote {
-      font-size: 0.9em;
-      font-style: italic;
-      color: #222;
-      max-width: 260px;
-      text-align: right;
-    }
-    .quote span {
-      color: orange;
-      font-size: 1.4em;
-      font-weight: bold;
-    }
-    nav {
-      background: #2d2626;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 10px 0;
-      flex-wrap: wrap;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      margin: 0 15px;
-      padding: 6px 12px;
-      border-radius: 4px;
-    }
-    nav a:hover {
-      background: orange;
-      color: #2d2626;
-    }
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #2d2626;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-      z-index: 1;
-    }
-    .dropdown-content a {
-      color: white;
-      padding: 10px 14px;
-      text-decoration: none;
-      display: block;
-    }
-    .dropdown-content a:hover {
-      background-color: orange;
-      color: #2d2626;
-    }
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-    main {
-      flex: 1;
-    }
-    footer {
-      background: #2d2626;
-      color: white;
-      padding: 10px 20px;
-      font-size: 0.85em;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-    .footer-links {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      max-width: 900px;
-      padding: 4px 20px;
-    }
-    .footer-links a {
-      color: white;
-      text-decoration: underline;
-      font-weight: bold;
-      font-size: 0.85em;
-    }
-    .footer-center {
-      margin-top: 4px;
-    }
-    @media (max-width: 600px) {
-      .footer-links {
-        flex-direction: column;
-        align-items: center;
-        gap: 6px;
-      }
-    }
+    body { font-family: Calibri, sans-serif; background: #fff; padding: 20px; max-width: 720px; margin: auto; }
+    h1 { color: orange; }
+    .chatbox { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto; margin-bottom: 10px; background: #f9f9f9; }
+    .user, .bot { margin: 8px 0; }
+    .user { text-align: right; color: #333; font-weight: bold; }
+    .bot { text-align: left; color: orange; }
+    input, textarea, button { width: 100%; margin-top: 8px; padding: 10px; font-size: 1em; }
+    #previewBox { margin-top: 20px; white-space: pre-wrap; background: #f1f1f1; padding: 15px; border-radius: 6px; }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
 <body>
-  <header>
-    <div class="brand">
-      <a href="home.html"><span>●</span> MIWITNESS</a>
-    </div>
-    <div class="quote">
-      <span>“</span>It performs to protect until<br>you need its protection<span>”</span>
-    </div>
-  </header>
+  <h1>miwitness Complaint Assistant</h1>
+  <div class="chatbox" id="chat"></div>
+  <input id="chatInput" placeholder="Type your message..." />
+  <button onclick="nextMessage()">Send</button>
+  <div id="previewBox"></div>
+  <script>
+    emailjs.init("hIS3eySFPXc1nNuFa");
 
-  <nav>
-    <a href="complaint.html">Complaint Assistant</a>
-    <div class="dropdown">
-      <a href="#">More</a>
-      <div class="dropdown-content">
-        <a href="about.html">About</a>
-        <a href="terms.html">Terms & Conditions</a>
-        <a href="faq.html">FAQ</a>
-      </div>
-    </div>
-  </nav>
+    const chat = document.getElementById("chat");
+    const previewBox = document.getElementById("previewBox");
+    const steps = [
+      { q: "Hello. I'm your AI complaint assistant. What is your email (for proof copy)?", key: "from_email" },
+      { q: "Who are you complaining about? (Police, Council, NHS, etc.)", key: "type" },
+      { q: "Please describe what happened.", key: "details" },
+      { q: "When did this occur?", key: "when" },
+      { q: "Where did it occur?", key: "where" },
+      { q: "Who should receive this? Enter their email:", key: "to_email" },
+    ];
 
-  <main>
-    <!-- Main content goes here -->
-  </main>
+    const answers = {};
+    let step = 0;
 
-  <footer>
-    <div class="footer-links">
-      <a href="disclaimer.html">Disclaimer</a>
-      <a href="privacy.html">Privacy Notice</a>
-    </div>
-    <div class="footer-center">
-      miwitness.org &copy;2025
-    </div>
-  </footer>
+    function printMsg(msg, who) {
+      const div = document.createElement("div");
+      div.className = who;
+      div.innerText = msg;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function nextMessage() {
+      const input = document.getElementById("chatInput");
+      const val = input.value.trim();
+      if (!val) return;
+      printMsg(val, "user");
+      const key = steps[step].key;
+      answers[key] = val;
+      input.value = "";
+      step++;
+      if (step < steps.length) {
+        printMsg(steps[step].q, "bot");
+      } else {
+        buildComplaint();
+      }
+    }
+
+    function buildComplaint() {
+      const ref = "MW-" + Date.now();
+      const letter = `Dear Sir/Madam,\n\nI am writing to formally raise a complaint regarding the following matter:\n\n${answers.details}\n\nThis incident occurred on ${answers.when}, at ${answers.where}.\n\nThis complaint concerns: ${answers.type}.\n\nI request a written response within 14 days, in line with obligations under UK law including the Human Rights Act 1998, Equality Act 2010, and GDPR.\n\nYours faithfully,\n\nThis complaint has been digitally witnessed and timestamped via miwitness.org.\nReference ID: ${ref}`;
+
+      previewBox.innerText = letter;
+
+      emailjs.send("service_kz8yf5h", "template_lnyzqy8", {
+        from_email: answers.from_email,
+        to_email: answers.to_email,
+        title: "miwitness Complaint",
+        message: letter,
+        ref_id: ref
+      }).then(() => {
+        printMsg("Complaint sent and copy emailed to you.", "bot");
+      }).catch(() => {
+        printMsg("Failed to send email. Try again later.", "bot");
+      });
+    }
+
+    printMsg(steps[step].q, "bot");
+  </script>
 </body>
 </html>
