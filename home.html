@@ -1,85 +1,116 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Welcome to miwitness</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>miwitness | Home</title>
   <style>
     body {
       margin: 0;
       font-family: Calibri, sans-serif;
       background: white;
-      height: 100vh;
+      color: #222;
+    }
+    header {
       display: flex;
+      justify-content: space-between;
       align-items: center;
+      padding: 12px 20px;
+    }
+    .brand {
+      font-size: 1.6em;
+      font-weight: bold;
+    }
+    .brand span {
+      color: orange;
+    }
+    .quote {
+      font-size: 0.9em;
+      font-style: italic;
+      color: #222;
+      max-width: 260px;
+      text-align: right;
+    }
+    .quote span {
+      color: orange;
+      font-size: 1.4em;
+      font-weight: bold;
+    }
+    nav {
+      background: #2d2626;
+      display: flex;
       justify-content: center;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .fade-in {
-      opacity: 0;
-      animation: fadeIn 2s forwards;
-    }
-    .fade-in.delay-1 { animation-delay: 0.5s; }
-    .fade-in.delay-2 { animation-delay: 1.2s; }
-    .fade-in.delay-3 { animation-delay: 2.2s; }
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-    .title {
-      font-size: 2.6em;
-      font-weight: bold;
-      letter-spacing: 0.02em;
-      color: black;
-      margin-bottom: 0.2em;
-    }
-    .subtitle {
-      font-size: 1.3em;
-      font-weight: normal;
-      color: black;
-      margin-bottom: 1em;
-    }
-    .dot-container {
-      display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 22px;
-      margin-top: 1em;
+      padding: 10px 0;
+      flex-wrap: wrap;
     }
-    .circle-main {
-      width: 60px;
-      height: 60px;
-      background: orange;
-      border-radius: 50%;
-    }
-    .circle-small {
-      width: 16px;
-      height: 16px;
-      background: orange;
-      border-radius: 50%;
-    }
-    .dot-label {
-      font-size: 1em;
-      color: black;
-      margin-top: 0.3em;
-      text-align: center;
-      font-weight: bold;
-    }
-    .clickable {
-      cursor: pointer;
+    nav a {
+      color: white;
       text-decoration: none;
+      font-weight: bold;
+      margin: 0 15px;
+      padding: 6px 12px;
+      border-radius: 4px;
+    }
+    nav a:hover {
+      background: orange;
+      color: #2d2626;
+    }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #2d2626;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    .dropdown-content a {
+      color: white;
+      padding: 10px 14px;
+      text-decoration: none;
+      display: block;
+    }
+    .dropdown-content a:hover {
+      background-color: orange;
+      color: #2d2626;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    footer {
+      background: #2d2626;
+      text-align: center;
+      color: white;
+      padding: 10px 0;
+      font-size: 0.85em;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
     }
   </style>
 </head>
 <body>
-  <div class="fade-in delay-1 title">WELCOME <span style="font-size:0.4em;">To</span></div>
-  <div class="fade-in delay-2 subtitle">MIWITNESS</div>  <div class="dot-container fade-in delay-3">
-    <a href="complaint.html" class="clickable">
-      <div class="circle-main"></div>
-      <div class="dot-label">COMPLAINT<br>ASSISTANT</div>
-    </a>
-    <a href="terms.html" class="clickable">
-      <div class="circle-small"></div>
-      <div class="dot-label">TERM &<br>CONDITIONS</div>
-    </a>
-  </div>
+  <header>
+    <div class="brand"><span>●</span> MIWITNESS</div>
+    <div class="quote">
+      <span>“</span>It performs to protect until<br>you need its protection<span>”</span>
+    </div>
+  </header>  <nav>
+    <a href="index.html">Home</a>
+    <a href="complaint.html">Complaint Assistant</a>
+    <div class="dropdown">
+      <a href="#">More</a>
+      <div class="dropdown-content">
+        <a href="about.html">About</a>
+        <a href="terms.html">Terms & Conditions</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+    </div>
+  </nav>  <!-- Main content goes here -->  <footer>
+    miwitness.org &copy;2025
+  </footer>
 </body>
 </html>
