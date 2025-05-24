@@ -1,90 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>miwitness Complaint Submission</title>
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <title>miwitness Complaint Assistant</title>
   <style>
-    body { font-family: Calibri, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
-    input, select, textarea, button { width: 100%; margin: 10px 0; padding: 10px; font-size: 1em; }
-    label { font-weight: bold; }
-    #confirmation { color: green; font-weight: bold; }
+    body { font-family: Calibri, sans-serif; background: #fff; padding: 20px; max-width: 720px; margin: auto; }
+    h1 { color: orange; }
+    .chatbox { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto; margin-bottom: 10px; background: #f9f9f9; }
+    .user, .bot { margin: 8px 0; }
+    .user { text-align: right; color: #333; font-weight: bold; }
+    .bot { text-align: left; color: orange; }
+    input, textarea, button { width: 100%; margin-top: 8px; padding: 10px; font-size: 1em; }
+    #previewBox { margin-top: 20px; white-space: pre-wrap; background: #f1f1f1; padding: 15px; border-radius: 6px; }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
 <body>
-  <h1>Submit Your Complaint</h1>
-  <form id="complaintForm">
-    <label>Your Email</label>
-    <input type="email" id="from_email" required>
-
-    <label>Organisation's Email</label>
-    <input type="email" id="to_email" required>
-
-    <label>Complaint Type</label>
-    <select id="type">
-      <option value="General">-- Select Type --</option>
-      <option value="Police">Police</option>
-      <option value="Council">Local Council</option>
-      <option value="Employer">Employer</option>
-      <option value="NHS">NHS</option>
-      <option value="School">School</option>
-      <option value="Mobile">Mobile Provider</option>
-      <option value="Other">Other</option>
-    </select>
-
-    <label>What happened?</label>
-    <textarea id="details" placeholder="Describe your complaint here..." required></textarea>
-
-    <button type="submit">Send Complaint</button>
-  </form>
-
-  <div id="confirmation" style="display:none;"></div>
-
+  <h1>miwitness Complaint Assistant</h1>
+  <div class="chatbox" id="chat"></div>
+  <input id="chatInput" placeholder="Type your message..." />
+  <button onclick="nextMessage()">Send</button>
+  <div id="previewBox"></div>
   <script>
-    emailjs.init("hIS3eySFPXc1nNuFa");
+    emailjs.init("hIS3eySFPXc1nNuFa");const chat = document.getElementById("chat");
+const previewBox = document.getElementById("previewBox");
+const steps = [
+  { q: "Hello. I'm your AI complaint assistant. What is your email (for proof copy)?", key: "from_email" },
+  { q: "Who are you complaining about? (Police, Council, NHS, etc.)", key: "type" },
+  { q: "Please describe what happened.", key: "details" },
+  { q: "When did this occur?", key: "when" },
+  { q: "Where did it occur?", key: "where" },
+  { q: "Who should receive this? Enter their email:", key: "to_email" },
+];
 
-    const complaintTemplates = {
-      Police: "I am writing to complain about police conduct. Details:\n\n",
-      Council: "I wish to raise a formal complaint regarding council services. Incident details:\n\n",
-      Employer: "I am submitting a grievance to my employer. The issue relates to:\n\n",
-      NHS: "This is a complaint regarding NHS care. The problem occurred on:\n\n",
-      School: "I wish to complain about a matter at the school concerning:\n\n",
-      Mobile: "I am lodging a formal complaint about my mobile phone provider. Details:\n\n",
-      Other: "This is a formal complaint. The issue I am raising is:\n\n",
-      General: ""
-    };
+const answers = {};
+let step = 0;
 
-    document.getElementById("type").addEventListener("change", function () {
-      const type = this.value;
-      const template = complaintTemplates[type] || "";
-      document.getElementById("details").value = template;
-    });
+function printMsg(msg, who) {
+  const div = document.createElement("div");
+  div.className = who;
+  div.innerText = msg;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
 
-    document.getElementById("complaintForm").addEventListener("submit", function (e) {
-      e.preventDefault();
+function nextMessage() {
+  const input = document.getElementById("chatInput");
+  const val = input.value.trim();
+  if (!val) return;
+  printMsg(val, "user");
+  const key = steps[step].key;
+  answers[key] = val;
+  input.value = "";
+  step++;
+  if (step < steps.length) {
+    printMsg(steps[step].q, "bot");
+  } else {
+    buildComplaint();
+  }
+}
 
-      const from_email = document.getElementById("from_email").value;
-      const to_email = document.getElementById("to_email").value;
-      const message = document.getElementById("details").value;
-      const title = document.getElementById("type").value || "Complaint";
-      const ref_id = "MW-" + Date.now();
+function buildComplaint() {
+  const ref = "MW-" + Date.now();
+  const letter = `Dear Sir/Madam,\n\nI am writing to formally raise a complaint regarding the following matter:\n\n${answers.details}\n\nThis incident occurred on ${answers.when}, at ${answers.where}.\n\nThis complaint concerns: ${answers.type}.\n\nI request a written response within 14 days, in line with obligations under UK law including the Human Rights Act 1998, Equality Act 2010, and GDPR.\n\nYours faithfully,\n\nThis complaint has been digitally witnessed and timestamped via miwitness.org.\nReference ID: ${ref}`;
 
-      emailjs.send("service_kz8yf5h", "template_lnyzqy8", {
-        from_email: from_email,
-        to_email: to_email,
-        title: title,
-        message: message,
-        ref_id: ref_id
-      }).then(function () {
-        document.getElementById("confirmation").style.display = "block";
-        document.getElementById("confirmation").innerText = 
-          "Complaint sent successfully. Reference: " + ref_id;
-        document.getElementById("complaintForm").reset();
-      }, function (error) {
-        alert("Failed to send complaint. Please try again.");
-        console.error(error);
-      });
-    });
+  previewBox.innerText = letter;
+
+  emailjs.send("service_kz8yf5h", "template_lnyzqy8", {
+    from_email: answers.from_email,
+    to_email: answers.to_email,
+    title: "miwitness Complaint",
+    message: letter,
+    ref_id: ref
+  }).then(() => {
+    printMsg("Complaint sent and copy emailed to you.", "bot");
+  }).catch(() => {
+    printMsg("Failed to send email. Try again later.", "bot");
+  });
+}
+
+printMsg(steps[step].q, "bot");
+
   </script>
 </body>
 </html>
