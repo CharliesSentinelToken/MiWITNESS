@@ -52,10 +52,12 @@
       margin: 0 15px;
       padding: 6px 12px;
       border-radius: 4px;
-    }
-    nav a:hover {
       background: orange;
       color: #2d2626;
+    }
+    nav a:hover {
+      background: #fff;
+      color: orange;
     }
     .dropdown {
       position: relative;
@@ -70,6 +72,7 @@
       z-index: 1;
     }
     .dropdown-content a {
+      background: none;
       color: white;
       padding: 10px 14px;
       text-decoration: none;
@@ -91,6 +94,14 @@
       position: fixed;
       bottom: 0;
       width: 100%;
+    }
+    .footer-links {
+      margin-top: 6px;
+    }
+    .footer-links a {
+      color: white;
+      font-size: 0.85em;
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -115,6 +126,9 @@
     </div>
   </nav>  <!-- Main content goes here -->  <footer>
     miwitness.org &copy;2025
+    <div class="footer-links">
+      <a href="disclaimer.html">Disclaimer</a>
+    </div>
   </footer>
 </body>
 </html>
