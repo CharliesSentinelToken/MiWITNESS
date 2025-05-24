@@ -1,84 +1,56 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>miwitness Complaint Assistant</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>miwitness | Complaint Assistant</title>
+  <script type="module" crossorigin src="https://cdn.jsdelivr.net/npm/vercel-ai-chatbot@latest/dist/index.min.js"></script>
   <style>
     body {
       margin: 0;
       font-family: Calibri, sans-serif;
-      background: white;
+      background: #fff;
       color: #222;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
     }
+    header, footer {
+      background: #2d2626;
+      color: white;
+      padding: 10px 20px;
+      font-size: 0.9em;
+    }
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 20px;
       flex-wrap: wrap;
     }
     .brand a {
       text-decoration: none;
-      color: black;
-      font-size: 1.6em;
+      color: white;
+      font-size: 1.4em;
       font-weight: bold;
     }
     .brand a span {
       color: orange;
     }
     .quote {
-      font-size: 0.9em;
+      font-size: 0.85em;
       font-style: italic;
-      color: #222;
-      max-width: 260px;
       text-align: right;
     }
-    .quote span {
-      color: orange;
-      font-size: 1.4em;
-      font-weight: bold;
-    }
     nav {
-      background: #2d2626;
+      background: #f90;
       display: flex;
       justify-content: center;
-      align-items: center;
       padding: 10px 0;
-      flex-wrap: wrap;
     }
     nav a {
-      color: white;
+      color: #2d2626;
       text-decoration: none;
       font-weight: bold;
       margin: 0 15px;
-      padding: 6px 12px;
-      border-radius: 4px;
-    }
-    nav a:hover {
-      background: orange;
-      color: #2d2626;
-    }
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #2d2626;
-      min-width: 160px;
-      z-index: 1;
-    }
-    .dropdown-content a {
-      color: white;
-      padding: 10px 14px;
-      display: block;
-    }
-    .dropdown:hover .dropdown-content {
-      display: block;
     }
     main {
       flex: 1;
@@ -86,46 +58,23 @@
       max-width: 900px;
       margin: auto;
     }
-    #chatbox {
-      border: 1px solid #ccc;
-      padding: 15px;
-      height: 400px;
-      overflow-y: auto;
-      margin-bottom: 15px;
-      background: #f7f7f7;
-      border-radius: 6px;
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
-    #chatbox .msg {
-      margin: 10px 0;
+    .footer-links a {
+      color: white;
+      text-decoration: underline;
+      margin: 0 10px;
     }
-    #chatbox .user {
-      text-align: right;
-      font-weight: bold;
-      color: #222;
-    }
-    #chatbox .ai {
-      text-align: left;
-      color: orange;
-    }
-    input, textarea, button {
-      font-size: 1em;
-      padding: 10px;
-      margin-top: 8px;
+    ai-chat {
       width: 100%;
-    }
-    button {
-      background: orange;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    footer {
-      background: #2d2626;
-      color: white;
-      padding: 10px 20px;
-      font-size: 0.85em;
-      text-align: center;
+      height: 500px;
+      display: block;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      overflow: hidden;
     }
   </style>
 </head>
@@ -135,78 +84,34 @@
       <a href="home.html"><span>●</span> MIWITNESS</a>
     </div>
     <div class="quote">
-      <span>“</span>It performs to protect until<br>you need its protection<span>”</span>
+      <span>“</span>It performs to protect until you need its protection<span>”</span>
     </div>
   </header>
   <nav>
-    <a href="complaint.html" style="background: orange; padding: 10px 16px; border-radius: 4px; font-weight: bold; color: #2d2626;">Complaint Assistant</a>
-    <div class="dropdown">
-      <a href="#">More</a>
-      <div class="dropdown-content">
-        <a href="about.html">About</a>
-        <a href="terms.html">Terms & Conditions</a>
-        <a href="faq.html">FAQ</a>
-        <a href="disclaimer.html">Disclaimer</a>
-      </div>
-    </div>
+    <a href="complaint.html">Complaint Assistant</a>
+    <a href="about.html">About</a>
+    <a href="terms.html">Terms</a>
+    <a href="faq.html">FAQ</a>
+    <a href="disclaimer.html">Disclaimer</a>
+    <a href="privacy.html">Privacy</a>
   </nav>
   <main>
-    <h1>Legal AI Complaint Assistant</h1>
-    <div id="chatbox"></div>
-    <input id="userInput" placeholder="Ask your question..." />
-    <button onclick="sendMessage()">Send</button>
-    <form id="sendForm">
-      <h3>Email This Complaint</h3>
-      <input type="email" id="fromEmail" placeholder="Your Email (proof copy)" required />
-      <input type="email" id="toEmail" placeholder="Recipient Email" required />
-      <textarea id="finalMessage" placeholder="Paste or edit your complaint here..." rows="8" required></textarea>
-      <button type="submit">Send Complaint</button>
-      <div id="emailResult"></div>
-    </form>
+    <h1>AI Legal Complaint Assistant</h1>
+    <p>This assistant helps draft legally structured complaints. Ask it anything and click Send to receive a formal letter preview you can edit and email.</p>
+    <ai-chat
+      endpoint="https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium"
+      placeholder="Describe your issue (e.g. My phone provider ignored my complaint...)"
+      autoresize>
+    </ai-chat>
   </main>
   <footer>
-    miwitness.org &copy;2025
+    <div class="footer-links">
+      <a href="disclaimer.html">Disclaimer</a>
+      <a href="privacy.html">Privacy</a>
+    </div>
+    <div style="text-align:center; margin-top:5px;">
+      miwitness.org ©2025
+    </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script>
-    emailjs.init("hIS3eySFPXc1nNuFa");
-    const chatbox = document.getElementById("chatbox");
-    const input = document.getElementById("userInput");
-    function appendMsg(msg, who) {
-      const div = document.createElement("div");
-      div.className = `msg ${who}`;
-      div.textContent = msg;
-      chatbox.appendChild(div);
-      chatbox.scrollTop = chatbox.scrollHeight;
-    }
-    function sendMessage() {
-      const val = input.value.trim();
-      if (!val) return;
-      appendMsg(val, "user");
-      input.value = "";
-      // Fake AI reply for now
-      setTimeout(() => {
-        const reply = `This is your generated complaint based on: "${val}"\n\nDear Sir/Madam,\n\nI am writing to raise a formal complaint regarding ${val}.\n\nI request you investigate and respond in accordance with your legal obligations, including the Equality Act 2010, GDPR, and Human Rights Act 1998.\n\nYours faithfully,\n\n— Generated by miwitness.org`;
-        appendMsg(reply, "ai");
-        document.getElementById("finalMessage").value = reply;
-      }, 1000);
-    }
-    document.getElementById("sendForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const data = {
-        from_email: document.getElementById("fromEmail").value,
-        to_email: document.getElementById("toEmail").value,
-        title: "miwitness Complaint",
-        message: document.getElementById("finalMessage").value,
-        ref_id: "MW-" + Date.now()
-      };
-      emailjs.send("service_kz8yf5h", "template_lnyzqy8", data).then(() => {
-        document.getElementById("emailResult").innerText = "Complaint sent and copy emailed.";
-        e.target.reset();
-      }).catch(() => {
-        document.getElementById("emailResult").innerText = "Failed to send.";
-      });
-    });
-  </script>
 </body>
 </html>
