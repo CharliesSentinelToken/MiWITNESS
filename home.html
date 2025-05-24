@@ -52,12 +52,10 @@
       margin: 0 15px;
       padding: 6px 12px;
       border-radius: 4px;
-      background: orange;
-      color: #2d2626;
     }
     nav a:hover {
-      background: #fff;
-      color: orange;
+      background: orange;
+      color: #2d2626;
     }
     .dropdown {
       position: relative;
@@ -72,7 +70,6 @@
       z-index: 1;
     }
     .dropdown-content a {
-      background: none;
       color: white;
       padding: 10px 14px;
       text-decoration: none;
@@ -87,21 +84,23 @@
     }
     footer {
       background: #2d2626;
-      text-align: center;
       color: white;
-      padding: 10px 0;
+      padding: 10px 20px;
       font-size: 0.85em;
       position: fixed;
       bottom: 0;
+      left: 0;
       width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .footer-links {
-      margin-top: 6px;
-    }
-    .footer-links a {
+    .footer-left a,
+    .footer-right a {
       color: white;
-      font-size: 0.85em;
       text-decoration: underline;
+      font-weight: bold;
+      font-size: 0.85em;
     }
   </style>
 </head>
@@ -121,13 +120,14 @@
         <a href="about.html">About</a>
         <a href="terms.html">Terms & Conditions</a>
         <a href="faq.html">FAQ</a>
-        <a href="disclaimer.html">Disclaimer</a>
       </div>
     </div>
   </nav>  <!-- Main content goes here -->  <footer>
-    miwitness.org &copy;2025
-    <div class="footer-links">
+    <div class="footer-left">
       <a href="disclaimer.html">Disclaimer</a>
+    </div>
+    <div class="footer-right">
+      <a href="privacy.html">Privacy Notice</a>
     </div>
   </footer>
 </body>
