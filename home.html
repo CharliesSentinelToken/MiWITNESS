@@ -1,50 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>miwitness | Home</title>
+  <title>Welcome to miwitness</title>
   <style>
     body {
       margin: 0;
       font-family: Calibri, sans-serif;
-      background: #fff;
-      color: #333;
-    }
-    .navbar {
-      background: orange;
-      padding: 10px 20px;
+      background: white;
+      height: 100vh;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      overflow: hidden;
     }
-    .navbar h1 {
-      margin: 0;
-      font-size: 1.3em;
-      color: white;
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 2s forwards;
     }
-    .navbar a {
-      text-decoration: none;
-      color: white;
+    .fade-in.delay-1 { animation-delay: 0.5s; }
+    .fade-in.delay-2 { animation-delay: 1.2s; }
+    .fade-in.delay-3 { animation-delay: 2.2s; }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    .title {
+      font-size: 3.4em;
       font-weight: bold;
-      margin-left: 20px;
+      letter-spacing: 0.02em;
+      color: black;
+      margin-bottom: 0.3em;
     }
-    .content {
-      padding: 40px 20px;
-      text-align: center;
+    .subtitle {
+      font-size: 1.5em;
+      font-weight: normal;
+      color: black;
+      margin-bottom: 1em;
+    }
+    .dot-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-top: 2em;
+    }
+    .circle-main {
+      width: 60px;
+      height: 60px;
+      background: orange;
+      border-radius: 50%;
+    }
+    .circle-small {
+      width: 14px;
+      height: 14px;
+      background: orange;
+      border-radius: 50%;
+    }
+    .dot-label {
+      font-size: 1em;
+      color: black;
+      margin-top: 0.3em;
+    }
+    .clickable {
+      cursor: pointer;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
-  <div class="navbar">
-    <h1>miwitness</h1>
-    <div>
-      <a href="/advocacy/complaint.html">Advocacy</a>
-    </div>
-  </div>
-
-  <div class="content">
-    <h2>Welcome to the home page</h2>
-    <p>This page will expand as the platform evolves.</p>
+  <div class="fade-in delay-1 title">WELCOME <span style="font-size:0.4em;">To</span></div>
+  <div class="fade-in delay-2 subtitle">MIWITNESS</div>  <div class="dot-container fade-in delay-3">
+    <a href="complaint.html" class="clickable">
+      <div class="circle-main"></div>
+      <div class="dot-label">COMPLAINT<br>ASSISTANT</div>
+    </a>
+    <a href="terms.html" class="clickable">
+      <div class="circle-small"></div>
+      <div class="dot-label">TERM &<br>CONDITIONS</div>
+    </a>
   </div>
 </body>
 </html>
