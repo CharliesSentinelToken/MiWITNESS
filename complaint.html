@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>miwitness Complaint Assistant</title>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <style>
     body {
       margin: 0;
@@ -14,11 +14,13 @@
       flex-direction: column;
       min-height: 100vh;
     }
+    header, nav, footer {
+      padding: 12px 20px;
+    }
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 20px;
       flex-wrap: wrap;
     }
     .brand a {
@@ -27,27 +29,19 @@
       font-size: 1.6em;
       font-weight: bold;
     }
-    .brand a span {
-      color: orange;
-    }
+    .brand a span { color: orange; }
     .quote {
       font-size: 0.9em;
       font-style: italic;
-      color: #222;
       max-width: 260px;
       text-align: right;
     }
-    .quote span {
-      color: orange;
-      font-size: 1.4em;
-      font-weight: bold;
-    }
+    .quote span { color: orange; font-size: 1.4em; font-weight: bold; }
     nav {
       background: #2d2626;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 10px 0;
       flex-wrap: wrap;
     }
     nav a {
@@ -58,10 +52,7 @@
       padding: 6px 12px;
       border-radius: 4px;
     }
-    nav a:hover {
-      background: orange;
-      color: #2d2626;
-    }
+    nav a:hover { background: orange; color: #2d2626; }
     .dropdown {
       position: relative;
       display: inline-block;
@@ -71,82 +62,59 @@
       position: absolute;
       background-color: #2d2626;
       min-width: 160px;
-      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
       z-index: 1;
     }
     .dropdown-content a {
       color: white;
       padding: 10px 14px;
-      text-decoration: none;
       display: block;
     }
-    .dropdown-content a:hover {
-      background-color: orange;
-      color: #2d2626;
-    }
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
+    .dropdown:hover .dropdown-content { display: block; }
     main {
       flex: 1;
       padding: 20px;
       max-width: 900px;
       margin: auto;
     }
-    .prompt-starters {
-      background: #fffbe6;
-      border: 1px solid #ffd580;
-      border-radius: 8px;
-      padding: 18px 20px;
-      margin-bottom: 24px;
-      font-size: 1.05em;
-      color: #444;
-    }
-    .prompt-starters strong {
-      color: orange;
-    }
-    .prompt-examples {
-      margin: 12px 0 0 0;
-      padding: 0;
-      list-style: disc inside;
-      color: #2d2626;
-    }
-    .prompt-examples li {
-      margin-bottom: 6px;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-    .prompt-examples li:hover {
-      color: orange;
-    }
     iframe {
       width: 100%;
-      height: 640px;
-      border: none;
+      height: 500px;
+      border: 1px solid #ccc;
       border-radius: 8px;
-      background: #fff;
+      margin-bottom: 20px;
+    }
+    .output-box {
+      background: #f9f9f9;
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+    }
+    label, input, textarea, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      font-size: 1em;
+    }
+    button {
+      background: orange;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
     }
     footer {
       background: #2d2626;
       color: white;
-      padding: 10px 20px;
       font-size: 0.85em;
       text-align: center;
+      padding: 10px 20px;
     }
   </style>
-  <script>
-    // Allow clicking prompt examples to auto-fill the chatbot (where supported)
-    document.addEventListener("DOMContentLoaded", function() {
-      document.querySelectorAll(".prompt-examples li").forEach(function(item) {
-        item.addEventListener("click", function() {
-          window.open('https://huggingface.co/spaces/OpenAssistant/oasst-chat', '_blank');
-        });
-      });
-    });
-  </script>
 </head>
 <body>
-
   <header>
     <div class="brand">
       <a href="home.html"><span>●</span> MIWITNESS</a>
@@ -155,9 +123,8 @@
       <span>“</span>It performs to protect until<br>you need its protection<span>”</span>
     </div>
   </header>
-
   <nav>
-    <a href="complaint.html" style="background: orange; padding: 10px 16px; border-radius: 4px; font-weight: bold; color: #2d2626; text-decoration: none;">Complaint Assistant</a>
+    <a href="complaint.html" style="background: orange; padding: 10px 16px; border-radius: 4px; font-weight: bold; color: #2d2626;">Complaint Assistant</a>
     <div class="dropdown">
       <a href="#">More</a>
       <div class="dropdown-content">
@@ -168,29 +135,47 @@
       </div>
     </div>
   </nav>
-
   <main>
-    <h1>Live AI Advocacy Assistant</h1>
-    <div class="prompt-starters">
-      <strong>Welcome! This assistant can:</strong>
-      <ul class="prompt-examples">
-        <li>Write a complaint letter about police misconduct citing UK law.</li>
-        <li>Draft a GDPR data access request email to a mobile provider.</li>
-        <li>Explain my rights under the Equality Act if denied services.</li>
-        <li>Help report an NHS breach of confidentiality.</li>
-        <li>How do I make a formal complaint to my local council?</li>
-      </ul>
-      <div style="margin-top:10px;color:#9c7700;">Ask any question about your UK legal rights or let the assistant generate a complaint email or letter for you.</div>
-    </div>
-    <iframe
-      src="https://huggingface.co/spaces/OpenAssistant/oasst-chat"
-      allow="clipboard-write"
-      title="AI Advocacy Chatbot"></iframe>
-  </main>
+    <h1>AI Legal Complaint Assistant</h1>
+    <iframe src="https://huggingface.co/spaces/OpenAssistant/oasst-chat" title="AI Chat"></iframe><div class="output-box" id="outputBox" contenteditable="true">
+  Paste the AI-generated complaint letter here for sending.
+</div>
 
+<form id="emailForm">
+  <label>Your Email (proof copy)</label>
+  <input type="email" name="from_email" required />
+  <label>Recipient Email (organisation)</label>
+  <input type="email" name="to_email" required />
+  <label>Complaint Message</label>
+  <textarea name="message" rows="8" required></textarea>
+  <input type="hidden" name="title" value="miwitness Complaint" />
+  <input type="hidden" name="ref_id" value="MW-${Date.now()}" />
+  <button type="submit">Send My Complaint</button>
+</form>
+
+<div id="result"></div>
+
+  </main>
   <footer>
     miwitness.org &copy;2025
-  </footer>
-
-</body>
+  </footer>  <script>
+    emailjs.init("hIS3eySFPXc1nNuFa");
+    document.getElementById("emailForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      form.message.value = document.getElementById("outputBox").innerText;
+      emailjs.send("service_kz8yf5h", "template_lnyzqy8", {
+        from_email: form.from_email.value,
+        to_email: form.to_email.value,
+        title: form.title.value,
+        message: form.message.value,
+        ref_id: form.ref_id.value
+      }).then(() => {
+        document.getElementById("result").innerText = "Complaint sent and copy emailed.";
+        form.reset();
+      }).catch(() => {
+        document.getElementById("result").innerText = "Failed to send email.";
+      });
+    });
+  </script></body>
 </html>
