@@ -1,48 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>miwitness.org</title>
-  <style>
-    body {
-      margin: 0;
-      background: white;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Calibri, sans-serif;
-    }
-    .logo-container {
-      text-align: center;
-      cursor: pointer;
-      text-decoration: none;
-    }
-    .logo-text {
-      font-size: 3.2em;
-      font-weight: bold;
-      color: black;
-      letter-spacing: 0.02em;
-    }
-    .spinner {
-      width: 42px;
-      height: 42px;
-      border: 4px solid orange;
-      border-top: 4px solid transparent;
-      border-radius: 50%;
-      margin: 25px auto 0;
-      animation: spin 1.3s linear infinite;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
+  <title>MiWITNESS - Digital Advocacy Assistant</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <a href="home.html" class="logo-container">
-    <div class="logo-text">MIWITNESS</div>
-    <div class="spinner"></div>
-  </a>
+  <header>
+    <h1>MiWITNESS</h1>
+    <p>"It’s harder to dismiss when you have an independent MiWITNESS."</p>
+  </header>
+
+  <main>
+    <textarea id="userInput" placeholder="Enter your complaint or paste document text..."></textarea>
+    <button onclick="runMiWitness()">Analyze</button>
+    <pre id="output"></pre>
+  </main>
+
+  <script src="app.js"></script>
 </body>
 </html>
