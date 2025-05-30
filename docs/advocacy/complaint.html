@@ -1,0 +1,83 @@
+```html name=docs/advocacy/complaint.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Complaint Assistant | MiWITNESS</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="top-header">
+    <div class="logo">
+      <span class="logo-text">Mi<span class="logo-orange">WITNESS</span></span>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+  <main>
+    <h1>AI Complaint Assistant</h1>
+    <p>
+      This tool helps you draft a complaint to authorities or organisations about injustice, misconduct, or systemic failure.<br>
+      <strong>No data is stored. You will receive your complaint via email for your own records.</strong>
+    </p>
+    <section class="section">
+      <form id="complaint-form">
+        <label for="yourName">Your Name (optional):</label><br>
+        <input type="text" id="yourName" name="yourName" placeholder="First Last"><br><br>
+
+        <label for="yourEmail">Your Email (for delivery):</label><br>
+        <input type="email" id="yourEmail" name="yourEmail" required placeholder="you@example.com"><br><br>
+
+        <label for="authority">Who is your complaint against?</label><br>
+        <input type="text" id="authority" name="authority" required placeholder="Council, Police, etc."><br><br>
+
+        <label for="details">What happened? (Include dates, places, and key facts)</label><br>
+        <textarea id="details" name="details" rows="6" required placeholder="Describe your experience"></textarea><br><br>
+
+        <label for="desired">What outcome do you want?</label><br>
+        <input type="text" id="desired" name="desired" placeholder="Apology, review, compensation, etc."><br><br>
+
+        <button type="submit" class="cta">Generate Complaint</button>
+      </form>
+      <div id="ai-output" style="margin-top:1.5em;"></div>
+    </section>
+    <section>
+      <h2>How it Works</h2>
+      <ol>
+        <li>Fill in the form with as much detail as you can.</li>
+        <li>Click “Generate Complaint”.</li>
+        <li>The AI assistant drafts a complaint letter for you.</li>
+        <li>You receive it by email—no data is stored by MiWITNESS.</li>
+      </ol>
+    </section>
+    <section>
+      <h2>Your Privacy & Legal Rights</h2>
+      <p>
+        Your information is not stored or used except to generate and deliver your complaint. For details, see our <a href="../privacy.html">Privacy Notice</a> and <a href="../legal-warning.html">Legal Warning</a>.
+      </p>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-logo">
+      <span class="logo-text">Mi<span class="logo-orange">WITNESS</span></span>
+    </div>
+    <nav class="footer-nav">
+      <a href="../privacy.html">Privacy Notice</a> |
+      <a href="../disclaimer.html">Disclaimer</a> |
+      <a href="../legal-warning.html">Legal Warning</a> |
+      <a href="../about.html">About</a>
+    </nav>
+    <small>&copy; 2025 MiWITNESS. Public Interest. No Data Collected.</small>
+  </footer>
+  <script>
+    // Placeholder JS for form handling
+    document.getElementById('complaint-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('ai-output').innerHTML = "<b>Your complaint draft will be generated and sent to your email. (Feature coming soon.)</b>";
+    });
+  </script>
+</body>
+</html>
+```
+Let me know when you’re ready for the next file (such as a placeholder for laws, authority, cica, or news sections)!
