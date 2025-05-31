@@ -1,112 +1,113 @@
 <!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MiWitness Legal Assistant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MiWITNESS | Legal Rights & Complaint Assistant</title>
   <style>
     body {
-      font-family: Calibri, sans-serif;
       margin: 0;
       padding: 0;
       background-color: #1a1a1a;
       color: #f0f0f0;
-    }
-    .chat-container {
-      max-width: 850px;
-      margin: 0 auto;
-      padding: 20px;
+      font-family: Calibri, sans-serif;
     }
     header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       background-color: #1a1a1a;
-      border-bottom: 2px solid #ffa500;
-      padding: 20px 0;
+      padding: 16px 24px;
+      border-bottom: 2px solid #FFA500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .logo {
       font-size: 24px;
       font-weight: bold;
-      color: #ffa500;
+      color: #FFA500;
     }
     .tagline {
-      font-size: 16px;
+      font-size: 14px;
       color: #ccc;
     }
+    .main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
     #chat-window {
-      background: #2a2a2a;
+      width: 100%;
+      max-width: 800px;
+      height: 400px;
+      background-color: #2a2a2a;
       border: 1px solid #444;
       border-radius: 10px;
-      padding: 20px;
-      height: 400px;
       overflow-y: scroll;
-      margin-top: 20px;
-    }
-    #chat-form {
-      display: flex;
-      margin-top: 20px;
-    }
-    #user-input {
-      flex: 1;
-      padding: 10px;
-      font-size: 16px;
-      background-color: #333;
-      border: none;
-      color: #fff;
-    }
-    button {
-      background-color: #ffa500;
-      color: black;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
+      padding: 16px;
+      box-sizing: border-box;
     }
     .chat-message {
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
     .user {
-      color: #87cefa;
+      color: #00b7ff;
       font-weight: bold;
     }
     .bot {
-      color: #f0f0f0;
+      color: #ffffff;
+    }
+    form {
+      display: flex;
+      width: 100%;
+      max-width: 800px;
+      margin-top: 16px;
+    }
+    #user-input {
+      flex-grow: 1;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      background-color: #333;
+      color: #fff;
+    }
+    button {
+      padding: 12px 20px;
+      background-color: #FFA500;
+      color: #000;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
     }
     footer {
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
       margin-top: 30px;
-      padding: 15px;
-      background-color: #121212;
-      border-top: 1px solid #333;
+      gap: 20px;
     }
     footer button {
-      background-color: #444;
-      color: #ffa500;
-      border: 1px solid #ffa500;
-      padding: 8px 16px;
+      background-color: #333;
+      color: #FFA500;
+      border: 1px solid #FFA500;
+      padding: 10px 16px;
       font-size: 14px;
+      border-radius: 5px;
       cursor: pointer;
-      border-radius: 4px;
     }
   </style>
 </head>
 <body>
-  <div class="chat-container">
-    <header>
-      <div class="logo">MiWITNESS</div>
-      <div class="tagline">Legal Rights & Complaint Assistant</div>
-    </header><main id="chat-window"></main>
-
-<form id="chat-form">
+  <header>
+    <div class="logo">MiWITNESS</div>
+    <div class="tagline">Legal Rights & Complaint Assistant</div>
+  </header>  <div class="main">
+    <div id="chat-window"></div><form id="chat-form">
   <input type="text" id="user-input" placeholder="Ask a legal question..." required />
   <button type="submit">Send</button>
 </form>
 
 <footer>
-  <button onclick="alert('Complaint generator coming soon.')">📤 Send Complaint</button>
-  <button onclick="alert('View case documents under construction.')">🧾 Case Files</button>
-  <button onclick="alert('Need urgent help? Contact 116 123 or seek emergency legal aid.')">🆘 Help</button>
+  <button onclick="alert('Complaint generator will activate here.')">📤 Send Complaint</button>
+  <button onclick="alert('Emergency help section placeholder.')">🆘 Help</button>
+  <button onclick="alert('Key victim rights under UK law.')">⚖️ Rights</button>
 </footer>
 
   </div>  <script>
@@ -119,35 +120,40 @@
       const userText = input.value;
       appendMessage('user', userText);
       input.value = '';
-
       appendMessage('bot', 'Thinking...');
 
-      const response = await fetch('https://api.perplexity.ai/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer YOUR_PERPLEXITY_API_KEY',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          model: 'llama-3-sonar-large-32k-online',
-          messages: [
-            { role: 'system', content: 'You are a UK legal assistant chatbot for miwitness.org. Answer based only on the Charlie Burgoyne legal blueprint, UK law, and human rights statutes. Cite documents or law when relevant.' },
-            { role: 'user', content: userText }
-          ]
-        })
-      });
-
-      const data = await response.json();
-      const botReply = data.choices?.[0]?.message?.content || 'An error occurred.';
-
-      chatWindow.lastChild.remove();
-      appendMessage('bot', botReply);
+      try {
+        const response = await fetch('https://api.perplexity.ai/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer YOUR_PERPLEXITY_API_KEY',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            model: 'llama-3-sonar-large-32k-online',
+            messages: [
+              {
+                role: 'system',
+                content: 'You are MiWitness Legal Assistant. Only respond using verified UK law, Victims Code, ECHR, and Charlie Burgoyne legal blueprint. Give direct legal answers and instructions.'
+              },
+              { role: 'user', content: userText }
+            ]
+          })
+        });
+        const data = await response.json();
+        const botReply = data.choices?.[0]?.message?.content || 'No reply.';
+        chatWindow.lastChild.remove();
+        appendMessage('bot', botReply);
+      } catch (err) {
+        chatWindow.lastChild.remove();
+        appendMessage('bot', 'Error: Unable to reach AI service.');
+      }
     };
 
     function appendMessage(sender, text) {
       const div = document.createElement('div');
       div.className = `chat-message ${sender}`;
-      div.innerHTML = `<strong class="${sender}">${sender === 'user' ? 'You' : 'MiWitness Bot'}:</strong> ${text}`;
+      div.innerHTML = `<strong>${sender === 'user' ? 'You' : 'MiWitness Bot'}:</strong> ${text}`;
       chatWindow.appendChild(div);
       chatWindow.scrollTop = chatWindow.scrollHeight;
     }
