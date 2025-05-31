@@ -1,0 +1,106 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MiWitness Legal Assistant</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Calibri, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+    .chat-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      background-color: #1a202c;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    #chat-window {
+      background: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      height: 400px;
+      overflow-y: scroll;
+    }
+    #chat-form {
+      display: flex;
+      margin-top: 20px;
+    }
+    #user-input {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #3182ce;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .chat-message {
+      margin-bottom: 15px;
+    }
+    .user {
+      color: #2b6cb0;
+      font-weight: bold;
+    }
+    .bot {
+      color: #1a202c;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <header>
+      <h1>MiWitness: Legal Justice Assistant</h1>
+      <p>Ask about your rights, case status, or generate legal complaints.</p>
+    </header><main id="chat-window"></main>
+
+<form id="chat-form">
+  <input type="text" id="user-input" placeholder="Ask a legal question..." required />
+  <button type="submit">Send</button>
+</form>
+
+  </div>  <script>
+    const chatWindow = document.getElementById('chat-window');
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('user-input');
+
+    const blueprint = {
+      "Was the settlement legal?": "No. The settlement breached CPR Part 21.10 which requires court approval for minor estates. This renders the settlement voidable under Dunhill v Burgin [2014].",
+      "What rights did the child have?": "Charlie Burgoyne was protected under the Children Act 1989, the Victims' Code 2020, and the Criminal Injuries Compensation Scheme Paragraph 10 which states children cannot consent to their own injury.",
+      "Can I complain to the ICO?": "Yes. MIB unlawfully transferred data about Connor Burgoyne without consent, breaching GDPR Article 51. You can file a complaint with the ICO referencing this breach."
+    };
+
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      const userText = input.value;
+      appendMessage('user', userText);
+      input.value = '';
+
+      setTimeout(() => {
+        const response = blueprint[userText] || "Sorry, I need more context or that question is not yet mapped. Please refer to your case documents.";
+        appendMessage('bot', response);
+      }, 300);
+    };
+
+    function appendMessage(sender, text) {
+      const div = document.createElement('div');
+      div.className = `chat-message ${sender}`;
+      div.innerHTML = `<strong class="${sender}">${sender === 'user' ? 'You' : 'MiWitness Bot'}:</strong> ${text}`;
+      chatWindow.appendChild(div);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+  </script></body>
+</html>
