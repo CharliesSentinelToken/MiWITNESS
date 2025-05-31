@@ -77,22 +77,34 @@
     const form = document.getElementById('chat-form');
     const input = document.getElementById('user-input');
 
-    const blueprint = {
-      "Was the settlement legal?": "No. The settlement breached CPR Part 21.10 which requires court approval for minor estates. This renders the settlement voidable under Dunhill v Burgin [2014].",
-      "What rights did the child have?": "Charlie Burgoyne was protected under the Children Act 1989, the Victims' Code 2020, and the Criminal Injuries Compensation Scheme Paragraph 10 which states children cannot consent to their own injury.",
-      "Can I complain to the ICO?": "Yes. MIB unlawfully transferred data about Connor Burgoyne without consent, breaching GDPR Article 51. You can file a complaint with the ICO referencing this breach."
-    };
-
-    form.onsubmit = (e) => {
+    form.onsubmit = async (e) => {
       e.preventDefault();
       const userText = input.value;
       appendMessage('user', userText);
       input.value = '';
 
-      setTimeout(() => {
-        const response = blueprint[userText] || "Sorry, I need more context or that question is not yet mapped. Please refer to your case documents.";
-        appendMessage('bot', response);
-      }, 300);
+      appendMessage('bot', 'Thinking...');
+
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer demo',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'openai/gpt-4',
+          messages: [
+            { role: 'system', content: 'You are a legal assistant chatbot built for miwitness.org. You answer questions based strictly on UK law, ECHR, and the legal blueprint for the Charlie Burgoyne case. You must cite relevant law or document references when answering.' },
+            { role: 'user', content: userText }
+          ]
+        })
+      });
+
+      const data = await response.json();
+      const botReply = data.choices?.[0]?.message?.content || 'An error occurred.';
+
+      chatWindow.lastChild.remove();
+      appendMessage('bot', botReply);
     };
 
     function appendMessage(sender, text) {
