@@ -2,76 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>MiWITNESS Documentation</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f9f9f9;
-    }
-    header {
-      background: #333;
-      color: #fff;
-      padding: 1em;
-      text-align: center;
-    }
-    nav {
-      background: #222;
-      overflow: hidden;
-    }
-    nav ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-    }
-    nav li {
-      float: left;
-      position: relative;
-    }
-    nav li a, nav li button {
-      display: block;
-      color: #fff;
-      text-decoration: none;
-      padding: 1em 1.5em;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-    nav li:hover > a, nav li:hover > button {
-      background: #444;
-    }
-    nav li ul {
-      display: none;
-      position: absolute;
-      background: #444;
-      min-width: 180px;
-      z-index: 1;
-    }
-    nav li:hover ul {
-      display: block;
-    }
-    nav li ul li {
-      float: none;
-    }
-    nav li ul li a {
-      padding: 1em;
-    }
-    main {
-      padding: 2em;
-      background: #fff;
-      max-width: 900px;
-      margin: 2em auto;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    @media (max-width: 600px) {
-      nav ul, nav li { float: none; width: 100%; }
-      nav li ul { position: static; }
-    }
-  </style>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>MiWITNESS - Digital Advocacy & Legal Assistant</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>MiWITNESS Documentation</h1>
- 
+  <header class="top-header">
+    <div class="logo">
+      <span class="logo-text">Mi<span class="logo-orange">WITNESS</span></span>
+    </div>
+    <nav>
+      <a href="index.html" class="active">Home</a>
+      <a href="advocacy/complaint.html">Complaint Assistant</a>
+      <a href="laws/index.html">Your Rights</a>
+      <a href="authority/index.html">Authorities</a>
+      <a href="cica/index.html">CICA</a>
+      <a href="news/index.html">News</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>MiWITNESS</h1>
+      <p class="tagline">Your independent, AI-powered digital witness for real victims of systemic injustice.</p>
+    </section>
+
+    <!-- UK Law – Your Rights -->
+    <section class="section" id="uk-rights">
+      <h2>UK Law: Your Rights</h2>
+      <p>Understand your rights in plain English. <a href="laws/index.html">Read more...</a></p>
+    </section>
+
+    <!-- Local Authority Watch -->
+    <section class="section" id="authority-news">
+      <h2>Local Authority Watch</h2>
+      <p>Latest evidence and updates on local authority violations.<br>
+      <a href="authority/index.html">See reports & news</a></p>
+    </section>
+
+    <!-- CICA Updates -->
+    <section class="section" id="cica-updates">
+      <h2>Criminal Injuries Compensation Authority (CICA)</h2>
+      <p>Stories, guidance and law updates for CICA claimants.<br>
+      <a href="cica/index.html">CICA News & Law Updates</a></p>
+    </section>
+
+    <!-- Live Laws/Legislation -->
+    <section class="section" id="live-laws">
+      <h2>Live Legislation Updates</h2>
+      <p>Stay up-to-date on key laws affecting your rights.<br>
+      <a href="laws/index.html#live">Latest laws</a></p>
+    </section>
+
+    <!-- AI Chat/Complaint Assistant -->
+    <section class="section" id="ai-assistant">
+      <h2>Need Help? Start a Complaint</h2>
+      <p>
+        Get AI-powered advice and draft a legal complaint.<br>
+        <a href="advocacy/complaint.html" class="cta">Launch Complaint Assistant</a>
+      </p>
+    </section>
+
+    <!-- Donation Button -->
+    <section class="section" id="donate">
+      <h2>Support MiWITNESS</h2>
+      <p>Your donations help us empower more victims and improve our tools.<br>
+        <!-- Placeholder for Stripe/BuyMeACoffee -->
+        <button class="donate-btn" disabled>Donate (Coming Soon)</button>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-logo">
+      <span class="logo-text">Mi<span class="logo-orange">WITNESS</span></span>
+    </div>
+    <nav class="footer-nav">
+      <a href="privacy.html">Privacy Notice</a> |
+      <a href="disclaimer.html">Disclaimer</a> |
+      <a href
 
